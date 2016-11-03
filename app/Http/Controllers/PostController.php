@@ -44,9 +44,9 @@ class PostController extends Controller
     public function show($id){
         $post=Post::find($id);
         if($post){
-        return view('show',['post'=>$post]);
-    }
-    return 'page not found!';
+            return view('show',['post'=>$post]);
+        }
+        return 'page not found!';
     }
 
  
@@ -58,7 +58,7 @@ class PostController extends Controller
             'title'=>'required|max:255',
             'content'=>'required',
             'image'=>'required|image|mimes:jpg,png,jpeg'
-            ]);
+        ]);
 
         $data=$request->all();
         if($request->hasFile('image')){
@@ -74,17 +74,17 @@ class PostController extends Controller
         //dump($post);die;
         $post->save();
 
-         return redirect('posts');
+        return redirect('posts');
     }
 
     public function my_posts($id)
     {
         if (Auth::user()->id == $id){
-        $posts=Post::where('user_id', $id)->get();
-        // dump($post);
-        return view('my_posts',['posts'=>$posts]);
-    }
-    return "dzzzz";
+            $posts=Post::where('user_id', $id)->get();
+            // dump($post);
+            return view('my_posts',['posts'=>$posts]);
+        }
+        return "dzzzz";
     }
 
     public function edit_form($id)
@@ -92,7 +92,6 @@ class PostController extends Controller
         $post=Post::find($id);
         if(Auth::user()->id == $post->user_id)
         {
-            
             return view('edit_form',['post'=>$post]);
         }
         return "Aber mi bzbza...!!!";
@@ -114,9 +113,6 @@ class PostController extends Controller
                 $imagename = time() . str_random(5).'.'.$image->getClientOriginalExtension();
                 $image->move(public_path() . '/images/', $imagename);
             }
-
-            
-
             $post->update(['title'=>$request->title,'image'=>$imagename,'content'=>$request->content]);
             return redirect('/my_posts/'.$user_id);
         }
@@ -126,13 +122,13 @@ class PostController extends Controller
     public function delete(Post $id)
     {
         if(Auth::user()->id == $id->user_id){
-        $id->delete();
-        $user_id=Auth::user()->id;
-        $file=$id->image;
-       
-        File::delete('images/'.$file);
-       
-        return redirect('/my_posts/'.$user_id);
+            $id->delete();
+            $user_id=Auth::user()->id;
+            $file=$id->image;
+           
+            File::delete('images/'.$file);
+           
+            return redirect('/my_posts/'.$user_id);
         }
         return "aber shat es bzbzum!!!";
     }
