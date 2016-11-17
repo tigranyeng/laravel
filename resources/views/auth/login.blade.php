@@ -58,6 +58,8 @@
                             </div>
                         </div>
                     </form>
+                    <a href='/auth/facebook'><img src='images/facebook.jpg'></a>
+                    <a href='/auth/google'><img src='images/google.jpg'></a>
                 </div>
             </div>
         </div>

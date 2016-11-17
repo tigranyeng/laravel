@@ -35,6 +35,7 @@ class PostController extends Controller
     {
         $posts=Post::all();
         return view('posts',['posts'=>$posts]);
+       
     }
     public function add()
     {
@@ -79,6 +80,7 @@ class PostController extends Controller
 
     public function my_posts($id)
     {
+       
         if (Auth::user()->id == $id){
             $posts=Post::where('user_id', $id)->get();
             // dump($post);
@@ -119,12 +121,14 @@ class PostController extends Controller
         return 'vay vay vay';
     }
 
-    public function delete(Post $id)
-    {
-        if(Auth::user()->id == $id->user_id){
-            $id->delete();
+    public function delete(Post $post, $id)
+    {   
+        $post = $post->find($id);
+       
+        if(Auth::user()->id == $post->user_id){
+            $post->delete();
             $user_id=Auth::user()->id;
-            $file=$id->image;
+            $file=$post->image;
            
             File::delete('images/'.$file);
            

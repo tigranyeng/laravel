@@ -34,3 +34,6 @@ Route::get('/edit_form/{id}', 'PostController@edit_form');
 Route::post('/edit_post/{id}', 'PostController@edit_post');
 
 Route::delete('/delete/{id}', 'PostController@delete');
+
+Route::get('auth/{provider}', 'Auth\RegisterController@redirectToProvider');
+Route::get('auth/{provider}/callback', 'Auth\RegisterController@handleProviderCallback');
